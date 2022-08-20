@@ -15,42 +15,42 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String mainPage() {
         return "redirect:/showAllUsers";
     }
 
-    @RequestMapping(value = "/showAllUsers")
+    @RequestMapping(value = "/showAllUsers", method = RequestMethod.GET)
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.allUsers());
         return "index";
     }
 
-    @RequestMapping(value = "/addNewUser")
+    @RequestMapping(value = "/addNewUser", method = RequestMethod.GET)
     public String addNewUsers(@ModelAttribute ("user") User user) {
         return "new-user-data";
     }
 
-    @RequestMapping(value = "/saveNewUser")
+    @RequestMapping(value = "/saveNewUser", method = RequestMethod.POST)
     public String saveNewUsers(@ModelAttribute ("user") User user) {
         userService.add(user);
         return "redirect:/showAllUsers";
     }
 
-    @RequestMapping(value ="/toEditUser")
+    @RequestMapping(value ="/toEditUser", method = RequestMethod.POST)
     public String toEdit(Model model,Long id) {
         User user = userService.findUserById(id);
         model.addAttribute("user", user);
         return "edit-user-data";
     }
 
-    @RequestMapping(value ="/editUser")
+    @RequestMapping(value ="/editUser", method = RequestMethod.POST)
     public String edit(User user) {
         userService.edit(user);
         return "redirect:/showAllUsers";
     }
 
-    @RequestMapping("/deleteUser")
+    @RequestMapping(value ="/deleteUser", method = RequestMethod.POST)
     public String delete(Long id) {
         userService.delete(id);
         return "redirect:/showAllUsers";
